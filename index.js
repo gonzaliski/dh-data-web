@@ -1,0 +1,92 @@
+import { datos } from "./datos.js";
+const df = new dfd.DataFrame(datos);
+const tableContainer = document.querySelector(".table-container");
+const table = document.getElementById("main-table");
+const tableHead = document.querySelector(".table-head");
+const button = document.querySelector(".main-button");
+const optionsForm = document.getElementById("options-form");
+const rowSelect = document.getElementById("rows-select");
+const colSelect = document.getElementById("col-select");
+const headers = df.columns;
+
+function setTable() {
+  const rowHeaders = document.createElement("tr");
+  rowHeaders.innerHTML = `${headers.map((h) => `<th>${h}</th>`).join("")}`;
+  tableHead.appendChild(rowHeaders);
+  for (d of datos) {
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = headers.map((h) => `<td>${d[h]}</td>`).join("");
+    table.appendChild(newRow);
+  }
+}
+function setOptions() {
+  const options = headers.map((h) => `<option>${h}</option>`);
+  rowSelect.innerHTML = options;
+  colSelect.innerHTML = options;
+}
+
+function updateTable() {
+  const rowOption = rowSelect.value;
+  const colOption = colSelect.value;
+  console.log(rowOption, colOption);
+  const groupedData = df.groupby([rowOption, colOption]).count().values;
+  //Utilizamos Set para eliminar valores repetidos
+  const newColumns = [...new Set(datos.map((item) => item[colOption]))];
+  // Eliminamos el contenido anterior
+  table.innerHTML = "";
+  const newTableHead = document.createElement("thead");
+  newTableHead.classList.add("table-head", "dynamic");
+  const tableHeaders = document.createElement("tr");
+  tableHeaders.innerHTML = `<th>Cantidad</th><th colspan=${newColumns.length}>${colOption}</th>`;
+  newTableHead.appendChild(tableHeaders);
+  table.appendChild(newTableHead);
+
+  // Construimos las columnas
+  const columnHead = document.createElement("thead");
+  columnHead.classList.add("table-head");
+  const columnHeaders = document.createElement("tr");
+  columnHeaders.innerHTML = `<th>${rowOption}</th>${newColumns
+    .map((col) => `<th>${col}</th>`)
+    .join("")}`;
+  columnHead.appendChild(columnHeaders);
+  table.appendChild(columnHead);
+  //Utilizamos Set para eliminar valores repetidos
+  const uniqueRows = new Set(datos.map((item) => item[rowOption]));
+  // Construimos el resto de las filas
+  uniqueRows.forEach((newRow) => {
+    const row = document.createElement("tr");
+    row.innerHTML =
+      `<td>${newRow}</td>` +
+      newColumns
+        .map((newCol) => {
+          // Este Find() lo que hace es evaluar cada fila del Dataframe agrupado, como cada fila es un Array,
+          // podemos consultar si la primera (valor a agrupar por fila) y segunda posicion (valor a agrupar por columna)
+          // se encuentran dentro del Dataframe agrupado.
+          const count = groupedData.find(
+            (group) => group[0] === newRow && group[1] === newCol
+          );
+          // luego el valor en la posicion 2 nos da la cantidad que contamos en la linea 32
+          return `<td>${count ? count[2] : 0}</td>`;
+        })
+        .join("");
+    table.appendChild(row);
+  });
+}
+
+button.addEventListener("click", () => {
+  tableContainer.classList.toggle("active");
+  if (tableContainer.className.includes("active")) {
+    button.textContent = "Ocultar tabla";
+  } else {
+    button.textContent = "Mostrar tabla";
+  }
+});
+optionsForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  updateTable();
+});
+
+(function main() {
+  setTable();
+  setOptions();
+})();

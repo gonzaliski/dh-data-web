@@ -1,0 +1,10 @@
+{
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel serve index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  }
+}

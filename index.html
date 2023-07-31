@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
+    <script type="module" src="index.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <section>
+      <header class="navbar">
+        <h2>Desafio Data + Web - Opc A</h2>
+        <button class="main-button">Mostrar tabla</button>
+      </header>
+      <div class="table-container">
+        <div class="table-wrapper">
+          <table id="main-table">
+            <thead class="table-head"></thead>
+          </table>
+        </div>
+        <div id="options">
+          <form id="options-form">
+            <h2>Opciones (agrupar)</h2>
+            <h4>Filas</h4>
+            <select id="rows-select" class="options-select" required></select>
+            <h4>Columnas</h4>
+            <select id="col-select" class="options-select" required></select>
+            <button class="secondary-button">Aplicar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
