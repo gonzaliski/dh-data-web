@@ -13,11 +13,11 @@ function setTable() {
   const rowHeaders = document.createElement("tr");
   rowHeaders.innerHTML = `${headers.map((h) => `<th>${h}</th>`).join("")}`;
   tableHead.appendChild(rowHeaders);
-  for (d of datos) {
+  datos.forEach((d) => {
     const newRow = document.createElement("tr");
     newRow.innerHTML = headers.map((h) => `<td>${d[h]}</td>`).join("");
     table.appendChild(newRow);
-  }
+  });
 }
 function setOptions() {
   const options = headers.map((h) => `<option>${h}</option>`);
