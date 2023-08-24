@@ -12,7 +12,7 @@
     <section>
       <header class="navbar">
         <h2>Desafio Data + Web - Opc A</h2>
-        <button class="main-button">Mostrar tabla</button>
+        <!-- <button class="main-button">Mostrar tabla</button> -->
       </header>
       <div class="table-container">
         <div class="table-wrapper">
@@ -22,11 +22,21 @@
         </div>
         <div id="options">
           <form id="options-form">
-            <h2>Opciones (agrupar)</h2>
+            <h2>Configuración</h2>
             <h4>Filas</h4>
             <select id="rows-select" class="options-select" required></select>
             <h4>Columnas</h4>
             <select id="col-select" class="options-select" required></select>
+            <h4>Valores</h4>
+            <select id="val-select" class="options-select" required></select>
+            <h4>Función de agregación</h4>
+            <select id="fun-select" class="options-select" required>
+              <option value="count">CONTEO</option>
+              <option value="sum">SUMA</option>
+              <option value="mean">PROMEDIO</option>
+              <option value="min">MÍNIMO</option>
+              <option value="max">MÁXIMO</option>
+            </select>
             <button class="secondary-button">Aplicar</button>
           </form>
         </div>

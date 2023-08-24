@@ -1,13 +1,27 @@
-import { datos } from "./datos.js";
-const df = new dfd.DataFrame(datos);
+let df;
+let headers;
+let datos;
+async function fetchDataframe() {
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyOXZ294HqsNbJs2EDJDyGDn8oBQp1mRB3bAaq-IY9d8ymnEzzRx84PJrnxVLEimw-mgA/exec"
+  );
+  const dat = await res.json();
+  return dat.datos;
+}
+async function initializeDf() {
+  datos = await fetchDataframe();
+  df = new dfd.DataFrame(datos);
+  headers = df.columns;
+}
 const tableContainer = document.querySelector(".table-container");
 const table = document.getElementById("main-table");
 const tableHead = document.querySelector(".table-head");
-const button = document.querySelector(".main-button");
+// const button = document.querySelector(".main-button");
 const optionsForm = document.getElementById("options-form");
 const rowSelect = document.getElementById("rows-select");
 const colSelect = document.getElementById("col-select");
-const headers = df.columns;
+const valSelect = document.getElementById("val-select");
+const funSelect = document.getElementById("fun-select");
 
 function setTable() {
   const rowHeaders = document.createElement("tr");
@@ -23,13 +37,19 @@ function setOptions() {
   const options = headers.map((h) => `<option>${h}</option>`);
   rowSelect.innerHTML = options;
   colSelect.innerHTML = options;
+  valSelect.innerHTML = options;
 }
 
 function updateTable() {
   const rowOption = rowSelect.value;
   const colOption = colSelect.value;
+  const valOption = valSelect.value;
+  const funOption = funSelect.value;
   console.log(rowOption, colOption);
-  const groupedData = df.groupby([rowOption, colOption]).count().values;
+  //const groupedData = df.groupby([rowOption, colOption]).count().values;
+  const groupedData = df
+    .groupby([rowOption, colOption])
+    .agg({ [valOption]: funOption }).values;
   //Utilizamos Set para eliminar valores repetidos
   const newColumns = [...new Set(datos.map((item) => item[colOption]))];
   // Eliminamos el contenido anterior
@@ -73,20 +93,21 @@ function updateTable() {
   });
 }
 
-button.addEventListener("click", () => {
-  tableContainer.classList.toggle("active");
-  if (tableContainer.className.includes("active")) {
-    button.textContent = "Ocultar tabla";
-  } else {
-    button.textContent = "Mostrar tabla";
-  }
-});
+// button.addEventListener("click", () => {
+//   tableContainer.classList.toggle("active");
+//   if (tableContainer.className.includes("active")) {
+//     button.textContent = "Ocultar tabla";
+//   } else {
+//     button.textContent = "Mostrar tabla";
+//   }
+// });
 optionsForm.addEventListener("submit", (e) => {
   e.preventDefault();
   updateTable();
 });
 
-(function main() {
+(async function main() {
+  await initializeDf();
   setTable();
   setOptions();
 })();

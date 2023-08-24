@@ -55,10 +55,10 @@ section {
   background-color: slategrey;
 }
 
-.table-container {
+/* .table-container {
   display: none;
-}
-.table-container.active {
+} */
+.table-container{
   display: grid;
   grid-template-columns: 75% 25%;
   gap: 20px;
