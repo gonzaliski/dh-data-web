@@ -24,10 +24,26 @@ const valSelect = document.getElementById("val-select");
 const funSelect = document.getElementById("fun-select");
 
 function setTable() {
+  table.innerHTML = "";
+  table.innerHTML = '<thead class="table-head"></thead>';
+  const tableHead = document.querySelector(".table-head");
   const rowHeaders = document.createElement("tr");
   rowHeaders.innerHTML = `${headers.map((h) => `<th>${h}</th>`).join("")}`;
   tableHead.appendChild(rowHeaders);
   datos.forEach((d) => {
+    // Cambio el formato de la fecha
+    const fechaISO = d.FECHA;
+    const fechaObj = new Date(fechaISO);
+    const year = fechaObj.getUTCFullYear();
+    const month = fechaObj.getUTCMonth() + 1;
+    const day = fechaObj.getUTCDate();
+
+    const nuevaFecha = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
+
+    d.FECHA = nuevaFecha;
+    // --------------------
     const newRow = document.createElement("tr");
     newRow.innerHTML = headers.map((h) => `<td>${d[h]}</td>`).join("");
     table.appendChild(newRow);
@@ -93,17 +109,14 @@ function updateTable() {
   });
 }
 
-// button.addEventListener("click", () => {
-//   tableContainer.classList.toggle("active");
-//   if (tableContainer.className.includes("active")) {
-//     button.textContent = "Ocultar tabla";
-//   } else {
-//     button.textContent = "Mostrar tabla";
-//   }
-// });
 optionsForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  updateTable();
+  if (e.submitter.id == "aplicar") {
+    updateTable();
+  } else {
+    setTable();
+    setOptions();
+  }
 });
 
 (async function main() {

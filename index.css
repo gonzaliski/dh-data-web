@@ -13,74 +13,99 @@ section {
   background-color: #3f3f3f;
   color: white;
 }
+
 .table-head.dynamic {
   background-color: gray;
   color: black;
 }
+
 .table-head.dynamic > tr > th {
   text-align: left;
   font-size: larger;
   font-weight: 900;
 }
+
 #main-table {
   height: min-content;
 }
+
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-around;
   background-color: #ffc51a;
-  padding: 10px;
+  padding: 5px;
   color: black;
 }
+
 .main-button,
 .secondary-button {
   padding: 8px;
-  border-radius: 10px;
   cursor: pointer;
+  max-width: 150px;
+  width: 100%;
   border-style: none;
   background-color: #ffc51a;
   color: black;
 }
+
 .main-button:hover,
 .secondary-button:hover {
   transition: all ease-in 0.4s;
-  /* filter: brightness(1.7); */
   background-color: #ffd676;
 }
 
-/* .table-container {
-  display: none;
-} */
+/* el color de la barra de scroll */
+.simplebar-vertical .simplebar-scrollbar::after,
+.simplebar-horizontal .simplebar-scrollbar::after {
+  background-color: #ffc51a;
+}
+
+.simplebar-vertical .simplebar-scrollbar::before,
+.simplebar-horizontal .simplebar-scrollbar::before {
+  background-color: #ffc51a;
+}
+
+/*------------  */
 .table-container {
   display: grid;
-  grid-template-columns: 75% 25%;
+  grid-template-columns: 85% 15%;
   /* gap: 20px; */
   width: 100%;
   height: 100%;
   animation: appear linear 0.5s;
+}
+@media (max-width: 768px) {
+  .table-container {
+    grid-template-columns: 80% 20%;
+  }
 }
 
 @keyframes appear {
   0% {
     opacity: 0%;
   }
+
   50% {
     opacity: 50%;
   }
+
   100% {
     opacity: 100%;
   }
 }
+
 .table-wrapper {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
+
 #options {
   width: 100%;
   background-color: #a0a0a0;
 }
+
 #options-form {
   display: flex;
   height: 100%;
@@ -88,6 +113,12 @@ section {
   gap: 10px;
   padding: 10%;
 }
+@media (max-width: 768px) {
+  #options-form > h3 {
+    font-size: medium;
+  }
+}
+
 #options-form > select {
   width: 100%;
   max-width: 150px;
