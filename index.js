@@ -16,6 +16,7 @@ async function initializeDf() {
 const tableContainer = document.querySelector(".table-container");
 const table = document.getElementById("main-table");
 const tableHead = document.querySelector(".table-head");
+const btnGrafico = document.getElementById("graficar");
 // const button = document.querySelector(".main-button");
 const optionsForm = document.getElementById("options-form");
 const rowSelect = document.getElementById("rows-select");
@@ -70,6 +71,7 @@ function updateTable() {
   let tableHeaders;
 
   if (rowOption !== "nada" && colOption !== "nada") {
+    btnGrafico.style.display = "block";
     groupedData = df
       .groupby([rowOption, colOption])
       .agg({ [valOption]: funOption }).values;
@@ -100,6 +102,16 @@ function updateTable() {
 
     //Utilizamos Set para eliminar valores repetidos
     const uniqueRows = new Set(datos.map((item) => item[rowOption]));
+    const uniqueCols = new Set(datos.map((item) => item[colOption]));
+
+    // var miArray = Array.from(uniqueRows);
+    // console.log(miArray)
+
+    // var miArrayCol = Array.from(uniqueCols);
+    // console.log(miArrayCol)
+
+    // console.log(groupedData)
+    // // var miArray2 =  [];
 
     // Construimos el resto de las filas
     uniqueRows.forEach((newRow) => {
@@ -120,7 +132,56 @@ function updateTable() {
           .join("");
       table.appendChild(row);
     });
+
+    //--------------------------------------------------------------
+
+    // Obtener las categorías únicas para filas y columnas
+    const uniqueRows1 = [...new Set(groupedData.map((item) => item[0]))];
+    const uniqueCols1 = [...new Set(groupedData.map((item) => item[1]))];
+
+    // Crear un objeto para organizar los datos en un formato para el gráfico
+    const dataObj = {};
+    uniqueCols1.forEach((col) => {
+      dataObj[col] = uniqueRows1.map((row) => {
+        const foundItem = groupedData.find(
+          (item) => item[0] === row && item[1] === col
+        );
+        return foundItem ? foundItem[2] : 0;
+      });
+    });
+
+    // Convertir el objeto en el formato esperado por Chart.js
+    const datasets = Object.keys(dataObj).map((key) => ({
+      label: key,
+      data: dataObj[key],
+    }));
+    const ctx = document.getElementById("myChart");
+    if (ctx) {
+      ctx.remove();
+    }
+    const modalContenido =
+      document.getElementsByClassName("modal-contenido")[0];
+    const newChartCanvas = document.createElement("canvas");
+    newChartCanvas.id = "myChart";
+    modalContenido.appendChild(newChartCanvas);
+    // Crear el gráfico de barras apiladas
+    new Chart(document.getElementById("myChart"), {
+      type: "bar",
+      data: {
+        labels: uniqueRows1,
+        datasets: datasets,
+      },
+      options: {
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true },
+        },
+      },
+    });
+
+    //--------------------------------------------------------------
   } else if (colOption == "nada" && rowOption !== "nada") {
+    btnGrafico.style.display = "block";
     groupedData = df
       .groupby([rowOption, colOption])
       .agg({ [valOption]: funOption }).values;
@@ -130,7 +191,8 @@ function updateTable() {
     const uniqueCols = new Set(datos.map((item) => item[colOption]));
 
     var miArray = Array.from(uniqueRows);
-    console.log(miArray);
+    var miArray2 = [];
+
     // Eliminamos el contenido anterior
     table.innerHTML = "";
 
@@ -153,34 +215,17 @@ function updateTable() {
             const count = groupedData.find(
               (group) => group[0] === newRow && group[1] === newCol
             );
+            miArray2.push(count[2].toFixed(1));
             return `<td>${count ? count[2].toFixed(1) : 0}</td>`;
           })
           .join("");
+
       table.appendChild(row);
     });
 
-    const ctx = document.getElementById("myChart");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: miArray,
-        datasets: [
-          {
-            label: "IDIOMAS",
-            data: [12, 19, 3, 5, 2, 3, 5, 9],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
+    createChart(miArray, miArray2, rowOption); //se crea el grafico
   } else if (colOption !== "nada" && rowOption == "nada") {
+    btnGrafico.style.display = "block";
     groupedData = df
       .groupby([rowOption, colOption])
       .agg({ [valOption]: funOption }).values;
@@ -229,6 +274,8 @@ function updateTable() {
       table.appendChild(row);
       // console.log(uniqueRows)
     });
+
+    //------------------------------------------------------
   }
 }
 
@@ -244,14 +291,95 @@ optionsForm.addEventListener("submit", (e) => {
   e.preventDefault();
   if (e.submitter.id == "aplicar") {
     updateTable();
-  } else {
+  } else if (e.submitter.id == "reiniciar") {
+    btnGrafico.style.display = "none";
     setTable();
     setOptions();
+  } else if (e.submitter.id == "graficar") {
+    const modal = document.querySelector("#modalGrafico");
+    modal.style.display = "block";
+    console.log("si");
   }
 });
+function modalOperation() {
+  // Modal
+  const modal = document.querySelector("#modalGrafico");
+  const btnClose = document.getElementsByClassName("close")[0];
+  btnClose.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+}
+
+function createChart(miArray, miArray2, rowOption) {
+  const ctx = document.getElementById("myChart");
+  if (ctx) {
+    ctx.remove();
+  }
+  const modalContenido = document.getElementsByClassName("modal-contenido")[0];
+  const newChartCanvas = document.createElement("canvas");
+  newChartCanvas.id = "myChart";
+  modalContenido.appendChild(newChartCanvas);
+  new Chart(newChartCanvas, {
+    type: "bar",
+    data: {
+      labels: miArray,
+      datasets: [
+        {
+          label: rowOption,
+          data: miArray2,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+function createStackedBarChart(miArray, miArray2, rowOption) {
+  const ctx = document.getElementById("myChart");
+  if (ctx) {
+    ctx.remove();
+  }
+
+  const modalContenido = document.getElementsByClassName("modal-contenido")[0];
+  const newChartCanvas = document.createElement("canvas");
+  newChartCanvas.id = "myChart";
+  modalContenido.appendChild(newChartCanvas);
+
+  new Chart(newChartCanvas, {
+    type: "bar",
+    data: {
+      labels: miArray, //fila
+      datasets: [
+        {
+          label: rowOption,
+          data: miArray2,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          stacked: true, // Apilar en el eje X
+        },
+        y: {
+          stacked: true, // Apilar en el eje Y
+        },
+      },
+    },
+  });
+}
 
 (async function main() {
   await initializeDf();
   setTable();
   setOptions();
+  modalOperation();
 })();
