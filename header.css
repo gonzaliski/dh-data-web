@@ -1,9 +1,7 @@
 .Browser {
   border-radius: 8px;
 }
-.Browser.light {
-  border: 3px solid var(--light-gray);
-}
+
 .Browser.light > .header {
   background-color: var(--light-gray);
 }
