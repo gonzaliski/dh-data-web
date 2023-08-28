@@ -1,0 +1,85 @@
+:root {
+  /* Brand */
+  --brand: #cb1e40;
+
+  /* Shadows */
+  --common-box-shadow: 0 0 10px 5px rgba(222, 222, 222, 0.5);
+  --darker-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+  /* Common  */
+  --white: #ffffff;
+  --rgb-black: 0, 0, 0;
+
+  --common-text: #303030;
+  --disabled: #6c757d;
+  --light-gray: #d9d9d9;
+  --background: #f5f5f5;
+
+  /* Status Styles */
+  --primary: #4349b5;
+  --primary-dark: #1b207b;
+  --primary-light: #e5e6fd;
+
+  --success: #00823f;
+  --success-light: #e3f8ea;
+
+  --warning: #ea752e;
+  --warning-light: #ffeee3;
+
+  --info: #3674e6;
+  --info-light: #cae1ff;
+
+  --danger: #d53f25;
+  --danger-light: #ffe4e3;
+
+  /* Iputs, Alphas & Opacity */
+  --input-focus-box-shadow: 0 0 0 2pt var(--primary-light);
+  --input-border: var(--light-gray);
+  --input-border-radius: 8px;
+  --input-height: 48px;
+  --input-color: var(--common-text);
+  --input-box-shadow: 0 0 6px 0px rgba(0, 0, 0, 0.26);
+
+  --input-disabled-text: var(--disabled);
+  --input-disabled-opacity: 0.6;
+
+  /* Fonts */
+  --primary-font: "SourceSansPro", sans-serif;
+  --secondary-font: "Poppins", sans-serif;
+
+  /* Heights */
+  --mobile-student-nav-height: 60px;
+
+  /* Playstrap */
+  --ps-title: var(--common-text);
+  --ps-danger: var(--danger);
+  --ps-alert: var(--warning);
+  --ps-success: var(--success);
+  --ps-info: var(--primary);
+  --ps-gray: var(--disabled);
+  --ps-white: var(--background);
+  --ps-code-background: var(--background);
+  --ps-light-success: var(--success-light);
+
+  --lists-identifier: #e8505b;
+  --ps-link: #0077cc;
+  --ps-link-hover: #0095ff;
+  --yellow-highlight: #fef5e7;
+
+  --ps-primary-font: var(--secondary-font);
+  --ps-secondary-font: var(--primary-font);
+  --ps-code-font: "Ubuntu Mono", monospace, sans-serif;
+
+  /* ATOM THEME COLORS -> default dark */
+  --ps-atom-bg: #282c34;
+  --ps-atom-text-color: #abb2bf;
+  --ps-atom-font: var(--ps-code-font);
+  --ps-atom-comment: #5c6370;
+  --ps-atom-keyword: #c678dd;
+  --ps-atom-selector-tag: #e06c75;
+  --ps-atom-selector-id: #61aeee;
+  --ps-atom-selector-class: #d19a66;
+  --ps-atom-class: #e6c07b;
+  --ps-atom-string: #98c379;
+  --ps-atom-literal: #56b6c2;
+}

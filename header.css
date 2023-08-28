@@ -1,0 +1,159 @@
+.Browser {
+  border-radius: 8px;
+}
+.Browser.light {
+  border: 3px solid var(--light-gray);
+}
+.Browser.light > .header {
+  background-color: var(--light-gray);
+}
+
+.Browser.light > .header .tabs li {
+  background-color: var(--background);
+  color: var(--common-text);
+}
+
+.Browser.light > .header .tabs li:last-child {
+  background-color: var(--light-gray);
+  color: var(--disabled);
+}
+.Browser .header .tabs .favicon {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+.Browser .header .tabs li {
+  padding: 6px 15px;
+  font-size: 14px;
+  list-style: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: inline-flex;
+}
+
+.Browser .header .tabs li svg {
+  width: 16px;
+  height: 16px;
+}
+
+.Browser .header .tabs li:last-child {
+  padding: 6px 10px;
+  border: 0;
+}
+.Browser .options {
+  padding: 5px 10px;
+}
+.Browser .options .theme {
+  width: 30px;
+  color: var(--common-text);
+  font-size: 16px;
+  padding-top: 4px;
+  margin-top: 1px;
+  height: 30px;
+  cursor: pointer;
+  background-color: var(--light-gray);
+  border-radius: 50%;
+  float: right;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.Browser.light .options .theme {
+  color: var(--common-text);
+}
+
+.Browser .options .theme svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: sub;
+}
+.Browser .options .terminal {
+  width: 30px;
+  color: var(--common-text);
+  font-size: 14px;
+  float: right;
+  text-align: center;
+  padding-top: 4px;
+  height: 30px;
+  cursor: pointer;
+  margin: 1px 16px 0 5px;
+  background-color: var(--light-gray);
+  border-radius: 50%;
+}
+.Browser.light .emptyArea {
+  background-color: var(--white);
+}
+.both {
+  clear: both;
+}
+.Browser .emptyArea {
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.Browser .header .tabs {
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.Browser .header .tabs li {
+  padding: 6px 15px;
+  font-size: 14px;
+  list-style: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: inline-flex;
+}
+.Browser .options .navigation {
+  padding: 0;
+  margin: 0;
+  float: left;
+  width: 90px;
+}
+.Browser .options .url {
+  float: left;
+  margin-left: 15px;
+  width: calc(100% - 240px);
+  padding: 7px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+.Browser.light .options .url {
+  background-color: var(--light-gray);
+  color: var(--common-text);
+  width: auto;
+  max-width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.Browser .options .url .protocolo {
+  font-size: 12px;
+  margin-right: 15px;
+}
+.Browser.light .options .url .protocolo {
+  color: var(--common-text);
+}
+.Browser.light .options .url .protocolo svg {
+  width: 16px;
+  height: 16px;
+  margin-right: -2px;
+  vertical-align: text-bottom;
+}
+
+.Browser .options .navigation li {
+  float: left;
+  color: var(--disabled);
+  font-size: 17px;
+  transition: all 0.1s ease-in-out;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
