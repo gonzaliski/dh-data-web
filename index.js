@@ -3,7 +3,7 @@ let headers;
 let datos;
 async function fetchDataframe() {
   const res = await fetch(
-    "https://script.google.com/macros/s/AKfycbyOXZ294HqsNbJs2EDJDyGDn8oBQp1mRB3bAaq-IY9d8ymnEzzRx84PJrnxVLEimw-mgA/exec"
+    "https://script.google.com/macros/s/AKfycbzsjRZjHa4-bokeNMH8AqLjROAeGOsdWYih10dhwJFha-jwLLmryebVyR37DZCbkbTB/exec"
   );
   const dat = await res.json();
   return dat.datos;
