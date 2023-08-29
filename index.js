@@ -260,6 +260,7 @@ function updateTable() {
     uniqueRows.forEach((newRow) => {
       console.log(newRow);
       const row = document.createElement("tr");
+      console.log(row);
       row.innerHTML =
         `<td>${funOption.toUpperCase()} DE ${valOption}</td>` +
         [...uniqueCols]
@@ -272,9 +273,55 @@ function updateTable() {
           .join("");
       // `<td>${funOption.toUpperCase()} DE ${valOption}</td>`
       table.appendChild(row);
-      // console.log(uniqueRows)
     });
 
+    //------------------------------------------------------
+    //aca se crea el grafico
+    const dataset = [...uniqueCols].map((newCol, index) => {
+      return {
+        label: newCol,
+        data: [...uniqueRows].map((newRow) => {
+          const count = groupedData.find(
+            (group) => group[0] === newRow && group[1] === newCol
+          );
+          console.log(count);
+          return count ? count[2] : 0;
+        }),
+        // background: `rgba(${index+1*50},${index+2*100},${index+3*150},0.7)`
+      };
+    });
+    const data = {
+      labels: [`${funOption.toUpperCase()} DE ${valOption}`], // Etiquetas
+      datasets: dataset.map((item) => ({
+        label: item.label,
+        data: item.data,
+        backgroundColor: item.backgroundColor,
+        borderColor: item.borderColor,
+      })),
+    };
+
+    const ctx = document.getElementById("myChart");
+    if (ctx) {
+      ctx.remove();
+    }
+    const modalContenido =
+      document.getElementsByClassName("modal-contenido")[0];
+    const newChartCanvas = document.createElement("canvas");
+    newChartCanvas.id = "myChart";
+    modalContenido.appendChild(newChartCanvas);
+
+    // Crear el gráfico de una sola columna apilada
+    new Chart(document.getElementById("myChart"), {
+      type: "bar",
+      data: data,
+      options: {
+        indexAxis: "x",
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true },
+        },
+      },
+    });
     //------------------------------------------------------
   }
 }
